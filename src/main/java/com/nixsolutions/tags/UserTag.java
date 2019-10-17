@@ -7,7 +7,6 @@ import java.util.List;
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.JspWriter;
 import javax.servlet.jsp.tagext.SimpleTagSupport;
-import org.joda.time.DateTime;
 import org.joda.time.Years;
 import org.joda.time.LocalDate;
 
@@ -34,25 +33,9 @@ public class UserTag extends SimpleTagSupport {
             .append("<td class=\"align-middle\">" + user.getLastName() + "</td>")
             .append("<td class=\"align-middle\">" + calculateAge(user.getBirthday()) + "</td>")
             .append("<td class=\"align-middle\">" + user.getRole().getName() + "</td>")
-            .append("<td><a href=\"admin?edit=" + user.getId()+ "\" class=\"btn btn-primary\">Edit</a>")
-            .append("<button type=\"button\" class=\"btn btn-danger delete_button\" " +
-                "data-toggle=\"modal\" data-target=\"#deleteModal\">Delete</button>")
-//            tag.append("<div class=\"modal fade\" id=\"deleteModal\" " +
-//                "tabindex=\"-1\" role=\"dialog\" " +
-//                "aria-labelledby=\"exampleModalCenterTitle\" " +
-//                "aria-hidden=\"true\">")
-//            .append("<div class=\"modal-content\"><div class=\"modal-header\">")
-//            .append("<h5 class=\"modal-title\" id=\"exampleModalCenterTitle\">Confirm</h5>")
-//            .append("<button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\">")
-//            .append("<span aria-hidden=\"true\">&times;</span></button></div>")
-//            .append("<div class=\"modal-body\">")
-//            .append("<span>Are you sure</span>")
-//            .append("</div><div class=\"modal-footer\">")
-//            .append("<button type=\"button\" class=\"btn btn-secondary\" " +
-//                "data-dismiss=\"modal\">Close</button>")
-//            .append("<a href=\"admin?delete=" + user.getId()+ "\" " +
-//                "type=\"button\" class=\"btn btn-primary\">Delete</button>")
-//            .append("</div></div></div></div>")
+            .append("<td  class=\"align-middle\"><form action=\"admin?delete=\" " + user.getLogin() + "\" onSubmit=\"return confirm('Are you sure?')\"><a href=\"admin?edit=" + user.getLogin()+ "\" class=\"btn btn-primary\">Edit</a>")
+            .append("<button type=\"submit\" class=\"btn btn-danger delete_button\" " +
+                "value=\"delete\">Delete</button></form>")
             .append("</td></tr>");
         }
 

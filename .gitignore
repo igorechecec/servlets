@@ -48,6 +48,11 @@ logs/
 target/
 lib/
 .editorconfig
+/.vscode
+/.settings
+.classpath
+.project
+
 
 # mpeltonen/sbt-idea plugin
 .idea_modules/

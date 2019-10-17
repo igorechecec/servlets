@@ -16,15 +16,16 @@ import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
 @RunWith(JUnit4.class)
-@DBUnit(caseSensitiveTableNames = true, qualifiedTableNames = true)
+@DBUnit(url = "jdbc:h2:mem:testdb:;INIT=RUNSCRIPT FROM 'classpath:data/init.sql';DB_CLOSE_DELAY=-1;DATABASE_TO_UPPER=false",
+    driver = "org.h2.Driver", user = "sa",
+    caseSensitiveTableNames = true, qualifiedTableNames = true)
 @DataSet(value = "entity.Role/role-data.xml")
 public class DbRoleTest {
 
     private JdbcRoleDao roleDao = new JdbcRoleDao();
-    private Connection conn = roleDao.createConnection();
 
     @Rule
-    public DBUnitRule dbUnitRule = DBUnitRule.instance(conn);
+    public DBUnitRule dbUnitRule = DBUnitRule.instance();
 
     @Test
     @ExpectedDataSet(value = "entity.Role/role-create-data.xml")
@@ -71,6 +72,7 @@ public class DbRoleTest {
     @Test
     public void findByNameRoleTest() throws Exception {
         try {
+
             roleDao.findByName("ji");
             fail("Should throw IllegalArgumentException");
         } catch (IllegalArgumentException e){

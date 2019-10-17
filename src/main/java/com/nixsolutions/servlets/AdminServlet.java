@@ -15,11 +15,17 @@ public class AdminServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.setAttribute("user_name", req.getSession(false).getAttribute("auth_admin"));
-        JdbcUserDao userDao = new JdbcUserDao();
-        List<User> users = userDao.findAll();
-        req.setAttribute("users_list", users);
-        req.getRequestDispatcher("/users.jsp").forward(req, resp);
+        String path = req.getRequestURI() + req.getQueryString();
+        if (req.getParameter("edit") != null) {
+            req.getRequestDispatcher("/edit").forward(req, resp);
+            return;
+        } else {
+            req.setAttribute("user_name", req.getSession(false).getAttribute("auth_admin"));
+            JdbcUserDao userDao = new JdbcUserDao();
+            List<User> users = userDao.findAll();
+            req.setAttribute("users_list", users);
+            req.getRequestDispatcher("WEB-INF/jsp/users.jsp").forward(req, resp);
+        }
     }
 
     @Override
