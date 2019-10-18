@@ -10,6 +10,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import org.apache.commons.dbutils.DbUtils;
 
 public class JdbcUserDao extends AbstractJdbcDao implements UserDao {
 
@@ -184,35 +185,50 @@ public class JdbcUserDao extends AbstractJdbcDao implements UserDao {
     @Override
     public User findByLogin(String login) {
         User user = null;
+        Connection conn = null;
         PreparedStatement stm = null;
         ResultSet userSet = null;
-        try (Connection conn = createConnection()) {
-
-            conn.setAutoCommit(false);
+        try {
+            conn = createConnection();
             String sql = "SELECT * FROM testdb.users WHERE login = ?";
             stm = conn.prepareStatement(sql);
             stm.setString(1, login);
             userSet = stm.executeQuery();
             if (userSet.next()) {
                 user = userMapper(userSet);
-            } else {
-                throw new IllegalArgumentException("User with with given "
-                    + "login is not exists");
             }
-
-            conn.commit();
-            conn.setAutoCommit(true);
+            DbUtils.commitAndCloseQuietly(conn);
         } catch (SQLException e) {
-            e.printStackTrace();
+            //logger.error("Sql exception when findAll method executing", e);
+            DbUtils.rollbackAndCloseQuietly(conn);
         } finally {
-            if (stm != null && userSet != null) {
-                try {
-                    stm.close();
-                    userSet.close();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
+            DbUtils.closeQuietly(stm);
+            DbUtils.closeQuietly(userSet);
+        }
+        return user;
+    }
+
+    public User findById(Long id) {
+        User user = null;
+        Connection conn = null;
+        PreparedStatement stm = null;
+        ResultSet userSet = null;
+        try {
+            conn = createConnection();
+            String sql = "SELECT * FROM testdb.users WHERE id = ?";
+            stm = conn.prepareStatement(sql);
+            stm.setLong(1, id);
+            userSet = stm.executeQuery();
+            if (userSet.next()) {
+                user = userMapper(userSet);
             }
+            DbUtils.commitAndCloseQuietly(conn);
+        } catch (SQLException e) {
+            //logger.error("Sql exception when findAll method executing", e);
+            DbUtils.rollbackAndCloseQuietly(conn);
+        } finally {
+            DbUtils.closeQuietly(stm);
+            DbUtils.closeQuietly(userSet);
         }
         return user;
     }

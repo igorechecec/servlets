@@ -1,14 +1,17 @@
 package com.nixsolutions.tags;
 
-import com.nixsolutions.entity.User;
 import java.io.IOException;
 import java.sql.Date;
 import java.util.List;
+
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.JspWriter;
 import javax.servlet.jsp.tagext.SimpleTagSupport;
-import org.joda.time.Years;
+
+import com.nixsolutions.entity.User;
+
 import org.joda.time.LocalDate;
+import org.joda.time.Years;
 
 public class UserTag extends SimpleTagSupport {
 
@@ -21,7 +24,7 @@ public class UserTag extends SimpleTagSupport {
     @Override
     public void doTag() throws JspException, IOException {
         StringBuilder tag = new StringBuilder("<div class=\"container\">\n" +
-            "<table class=\"table table-striped\">\n" +
+            "<table class=\"table table-striped\"><a class=\"add-user-link\" href=\"/add\">Add new user</a>\n" +
             "<thead><tr><th>Login</th><th>First Name</th>" +
             "<th>Last Name</th><th>Age</th><th>Role</th>" +
             "<th>Action</th></tr>" +
@@ -33,7 +36,10 @@ public class UserTag extends SimpleTagSupport {
             .append("<td class=\"align-middle\">" + user.getLastName() + "</td>")
             .append("<td class=\"align-middle\">" + calculateAge(user.getBirthday()) + "</td>")
             .append("<td class=\"align-middle\">" + user.getRole().getName() + "</td>")
-            .append("<td  class=\"align-middle\"><form action=\"admin?delete=\" " + user.getLogin() + "\" onSubmit=\"return confirm('Are you sure?')\"><a href=\"admin?edit=" + user.getLogin()+ "\" class=\"btn btn-primary\">Edit</a>")
+            .append("<td  class=\"align-middle\"><form action=\"/delete?id="
+                + user.getId() + "\" onSubmit=\"return confirm('Are you sure?')\">" +
+                "<a href=\"edit?id=" + user.getId()+
+                "\" class=\"btn btn-primary\">Edit</a>")
             .append("<button type=\"submit\" class=\"btn btn-danger delete_button\" " +
                 "value=\"delete\">Delete</button></form>")
             .append("</td></tr>");

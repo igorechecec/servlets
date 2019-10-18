@@ -2,8 +2,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
     <head>
-        <link rel="stylesheet" href="style.css"/>
-        <link rel="stylesheet" href="bootstrap.min.css"/>
+        <link rel="stylesheet" href="resources/style.css"/>
+        <link rel="stylesheet" href="resources/bootstrap.min.css"/>
     </head>
     <body>
     <h1>This if first page!</h1>

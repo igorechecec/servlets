@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import org.apache.commons.lang3.StringUtils;
 
 @WebServlet("/add")
 public class AdminAddServlet extends HttpServlet {
@@ -26,13 +27,22 @@ public class AdminAddServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        HttpSession session = null;
+        if (!checkForm(req)) {
+            resp.sendRedirect("/error");
+            return;
+        }
+        HttpSession session = req.getSession(false);
         RoleDao roleDao = new JdbcRoleDao();
         UserDao userDao = new JdbcUserDao();
         if (!req.getParameter("password").equals(req.getParameter("password-again"))) {
-            session = req.getSession(false);
-            session.setAttribute("message", "You passed different password!");
-            resp.sendRedirect("WEB-INF/error.jsp");
+            session.setAttribute("error", "You passed different password!");
+            resp.sendRedirect("/error");
+            return;
+        }
+        String login = req.getParameter("login");
+        if (userDao.findByLogin(login) != null) {
+            session.setAttribute("error", "User already exists");
+            resp.sendRedirect("/error");
             return;
         }
         User user = new User();
@@ -52,5 +62,24 @@ public class AdminAddServlet extends HttpServlet {
 
         userDao.create(user);
         resp.sendRedirect("/admin");
+    }
+
+    /**
+     * Method checks input from user.
+     *
+     * @param req request
+     * @return
+     */
+    private boolean checkForm(HttpServletRequest req) {
+        String[] formParams = {"login", "password", "email", "firstname",
+            "lastname", "birthday", "role"};
+        for (String param: formParams) {
+            if (StringUtils.isEmpty(req.getParameter(param))) {
+                req.getSession(false).setAttribute("error",
+                    "Field " + param + " should be define");
+                return false;
+            }
+        }
+        return true;
     }
 }

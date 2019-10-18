@@ -27,6 +27,8 @@ public class AuthFilter implements Filter {
         HttpSession session = req.getSession(false);
         String uri = req.getRequestURI();
         String path;
+
+        String[] adminPages = {"/admin", "/add", "/edit"};
         if (req.getQueryString() != null) {
             path = uri + "?" + req.getQueryString();
         } else {
@@ -46,17 +48,34 @@ public class AuthFilter implements Filter {
 
         } else if (session.getAttribute("auth_admin") == null
             && session.getAttribute("auth_user") == null) {
-
             filterChain.doFilter(req, resp);
         } else if (path.contains("/logout")) {
             filterChain.doFilter(req, resp);
         } else if (session.getAttribute("auth_admin") != null) {
-            req.getRequestDispatcher(path).forward(req, resp);
-            return;
+            for (String url: adminPages) {
+                if (path.startsWith(url)) {
+                    System.out.println(path);
+                    req.getRequestDispatcher(path).forward(req, resp);
+                    return;
+                }
+            }
+            if (path.contains("/error")) {
+                req.getRequestDispatcher(path).forward(req, resp);
+                return;
+            }
+            resp.sendRedirect("/admin");
         } else if (session.getAttribute("auth_user") != null) {
+            System.out.println(path);
+            if (path.startsWith("/user")) {
+                req.getRequestDispatcher(path).forward(req, resp);
+                return;
+            }
+            if (path.contains("/error")) {
+                req.getRequestDispatcher(path).forward(req, resp);
+                return;
+            }
             req.setAttribute("user_name", session.getAttribute("auth_user"));
-            req.getRequestDispatcher("WEB-INF/jsp/welcome.jsp").forward(req, resp);
-            return;
+            resp.sendRedirect("/user");
         } else {
             filterChain.doFilter(req, resp);
         }

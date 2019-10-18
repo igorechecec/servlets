@@ -14,7 +14,7 @@
                 <span>(</span><a href="/logout">Logout</a><span>)</span>
             </div>
         </div>
-        <a href="/add">Add new user</a>
+        
         <ext:user users="${users_list}"/>
         
         <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>

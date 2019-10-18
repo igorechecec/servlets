@@ -12,3 +12,9 @@
 form {
     margin-bottom: 0px;
 }
+
+.add-user-link {
+    size: 20px;
+    margin-bottom: 20px;
+    display: inline-block;
+}
