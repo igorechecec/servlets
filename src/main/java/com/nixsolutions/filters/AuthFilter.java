@@ -28,7 +28,7 @@ public class AuthFilter implements Filter {
         String uri = req.getRequestURI();
         String path;
 
-        String[] adminPages = {"/admin", "/add", "/edit"};
+        String[] adminPages = {"/admin", "/add", "/edit", "/delete"};
         if (req.getQueryString() != null) {
             path = uri + "?" + req.getQueryString();
         } else {
@@ -54,7 +54,6 @@ public class AuthFilter implements Filter {
         } else if (session.getAttribute("auth_admin") != null) {
             for (String url: adminPages) {
                 if (path.startsWith(url)) {
-                    System.out.println(path);
                     req.getRequestDispatcher(path).forward(req, resp);
                     return;
                 }
@@ -65,7 +64,6 @@ public class AuthFilter implements Filter {
             }
             resp.sendRedirect("/admin");
         } else if (session.getAttribute("auth_user") != null) {
-            System.out.println(path);
             if (path.startsWith("/user")) {
                 req.getRequestDispatcher(path).forward(req, resp);
                 return;

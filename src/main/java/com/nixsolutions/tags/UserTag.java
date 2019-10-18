@@ -36,8 +36,9 @@ public class UserTag extends SimpleTagSupport {
             .append("<td class=\"align-middle\">" + user.getLastName() + "</td>")
             .append("<td class=\"align-middle\">" + calculateAge(user.getBirthday()) + "</td>")
             .append("<td class=\"align-middle\">" + user.getRole().getName() + "</td>")
-            .append("<td  class=\"align-middle\"><form action=\"/delete?id="
-                + user.getId() + "\" onSubmit=\"return confirm('Are you sure?')\">" +
+            .append("<td  class=\"align-middle\"><form action=\"/delete\" " +
+                "onSubmit=\"return confirm('Are you sure?');\">" +
+                "<input type=\"hidden\" name=\"id\" value=\"" +user.getId() + "\">"+
                 "<a href=\"edit?id=" + user.getId()+
                 "\" class=\"btn btn-primary\">Edit</a>")
             .append("<button type=\"submit\" class=\"btn btn-danger delete_button\" " +
