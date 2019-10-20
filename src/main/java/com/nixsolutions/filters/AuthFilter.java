@@ -10,9 +10,12 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class AuthFilter implements Filter {
 
+    private static Logger logger = LoggerFactory.getLogger(AuthFilter.class.getSimpleName());
     FilterConfig config;
 
     @Override
@@ -25,62 +28,78 @@ public class AuthFilter implements Filter {
         HttpServletRequest req = (HttpServletRequest) servletRequest;
         HttpServletResponse resp = (HttpServletResponse) servletResponse;
         HttpSession session = req.getSession(false);
-        String uri = req.getRequestURI();
-        String path;
-
+        String path = req.getRequestURI();
+        String fullPath = getUriWithParams(req);
         String[] adminPages = {"/admin", "/add", "/edit", "/delete"};
-        if (req.getQueryString() != null) {
-            path = uri + "?" + req.getQueryString();
-        } else {
-            path = uri;
-        }
-        if (path.startsWith("/resources/")) {
+
+        if (fullPath.startsWith("/resources/")) {
+            logger.trace("resource filter");
             filterChain.doFilter(req, resp);
             return;
         }
-        if (session == null) {
-            if (path.contains("/login")) {
+        if (session == null || (session.getAttribute("auth_admin") == null
+            && session.getAttribute("auth_user") == null)) {
+            logger.trace("login filter");
+            if (fullPath.equals("/login")) {
                 filterChain.doFilter(servletRequest, servletResponse);
-            } else {
+            } else if (fullPath.equals("/")){
                 resp.sendRedirect("/login");
                 return;
+            } else {
+                resp.sendError(404);
+                return;
             }
-
-        } else if (session.getAttribute("auth_admin") == null
-            && session.getAttribute("auth_user") == null) {
-            filterChain.doFilter(req, resp);
-        } else if (path.contains("/logout")) {
+        } else if (fullPath.equals("/logout")) {
+            logger.trace("logout filter");
             filterChain.doFilter(req, resp);
         } else if (session.getAttribute("auth_admin") != null) {
+            logger.trace("admin filter");
             for (String url: adminPages) {
-                if (path.startsWith(url)) {
-                    req.getRequestDispatcher(path).forward(req, resp);
+                if (path.equals(url)) {
+                    req.getRequestDispatcher(fullPath).forward(req, resp);
+                    return;
+                } else if (path.equals("/")) {
+                    resp.sendRedirect("/admin");
                     return;
                 }
             }
-            if (path.contains("/error")) {
-                req.getRequestDispatcher(path).forward(req, resp);
-                return;
+            if (fullPath.equals("/error")) {
+                req.getRequestDispatcher(fullPath).forward(req, resp);
+            } else {
+                resp.sendError(404);
             }
-            resp.sendRedirect("/admin");
         } else if (session.getAttribute("auth_user") != null) {
-            if (path.startsWith("/user")) {
-                req.getRequestDispatcher(path).forward(req, resp);
+            logger.trace("user filter");
+            if (fullPath.equals("/user")) {
+                req.getRequestDispatcher(fullPath).forward(req, resp);
+                return;
+            } else if (fullPath.equals("/")) {
+                resp.sendRedirect("/user");
                 return;
             }
-            if (path.contains("/error")) {
-                req.getRequestDispatcher(path).forward(req, resp);
+            if (fullPath.equals("/error")) {
+                req.getRequestDispatcher(fullPath).forward(req, resp);
                 return;
             }
             req.setAttribute("user_name", session.getAttribute("auth_user"));
             resp.sendRedirect("/user");
         } else {
-            filterChain.doFilter(req, resp);
+            logger.trace("error filter");
+            resp.sendError(404);
         }
     }
 
     @Override
     public void destroy() {
         config = null;
+    }
+
+    private String getUriWithParams(HttpServletRequest req) {
+        String path = req.getRequestURI();
+        if (req.getQueryString() != null) {
+            return path + "?" + req.getQueryString();
+        } else {
+            return path;
+        }
     }
 }

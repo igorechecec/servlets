@@ -1,4 +1,4 @@
-package com.nixsolutions.servlets;
+package com.nixsolutions.servlets.admin;
 
 import com.nixsolutions.dao.JdbcUserDao;
 import com.nixsolutions.entity.User;
@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 @WebServlet("/admin")
-public class AdminServlet extends HttpServlet {
+public class AdminHomeServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

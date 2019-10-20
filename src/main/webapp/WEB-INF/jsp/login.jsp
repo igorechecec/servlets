@@ -1,7 +1,10 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page session="false" %>
 <html>
 <head>
+    <title>Sign In</title>
+    <link rel="shortcut icon" type="image/gif" href="/resources/favicon.ico"/>
     <link rel="stylesheet" href="resources/style.css"/>
     <link rel="stylesheet" href="resources/bootstrap.min.css"/>
 </head>

@@ -1,4 +1,4 @@
-package com.nixsolutions.servlets;
+package com.nixsolutions.servlets.admin;
 
 import com.nixsolutions.dao.JdbcUserDao;
 import com.nixsolutions.entity.User;

@@ -1,5 +1,7 @@
 <html>
 <head>
+    <title>Edit user</title>
+    <link rel="shortcut icon" type="image/gif" href="/resources/favicon.ico"/>
     <link href="resources/bootstrap.min.css" rel="stylesheet"/>
     <link href="resources/edit_user.css" rel="stylesheet"/>
 </head>

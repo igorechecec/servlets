@@ -1,5 +1,7 @@
 <html>
     <head>
+        <title>Add new user</title>
+        <link rel="shortcut icon" type="image/gif" href="/resources/favicon.ico"/>
         <link href="resources/bootstrap.min.css" rel="stylesheet"/>
         <link href="resources/add_user.css" rel="stylesheet"/>
     </head>

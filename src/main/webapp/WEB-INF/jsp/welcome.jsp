@@ -1,5 +1,7 @@
 <html>
     <head>
+        <title>User Home</title>
+        <link rel="shortcut icon" type="image/gif" href="/resources/favicon.ico"/>
         <link href="resources/style.css" rel="stylesheet"/>
         <link href="resources/bootstrap.min.css" rel="stylesheet"/>
     </head>

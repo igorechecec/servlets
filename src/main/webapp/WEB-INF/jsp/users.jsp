@@ -2,6 +2,8 @@
 <%@ taglib prefix="ext" uri="./../WEB-INF/../user.tld"%>
 <html>
     <head>
+        <title>Admin Home</title>
+        <link rel="shortcut icon" type="image/gif" href="/resources/favicon.ico"/>
         <link href="resources/bootstrap.min.css" rel="stylesheet"/>
         <link href="resources/users.css" rel="stylesheet"/>
     </head>

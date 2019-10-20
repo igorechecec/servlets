@@ -1,4 +1,4 @@
-package com.nixsolutions.servlets;
+package com.nixsolutions.servlets.admin;
 
 import com.nixsolutions.dao.JdbcRoleDao;
 import com.nixsolutions.dao.JdbcUserDao;
@@ -36,7 +36,8 @@ public class AdminEditServlet extends HttpServlet {
                 resp.sendRedirect("/error");
             }
         } else {
-            resp.sendRedirect("/admin");
+            req.getSession(false).setAttribute("error", "Invalid id parameter");
+            resp.sendRedirect("/error");
         }
     }
 
@@ -79,7 +80,8 @@ public class AdminEditServlet extends HttpServlet {
      * Method checks input from user.
      *
      * @param req request
-     * @return
+     * @return true if all params passed and its valid or false and put
+     * error message to session.
      */
     private boolean checkForm(HttpServletRequest req) {
         String[] formParams = {"login", "password", "email", "firstname",
