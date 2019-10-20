@@ -11,15 +11,15 @@
     <body>
         <form action="/login" method="post">
             <div class="form-group row">
-                <label for="exampleInputEmail1" class="col-sm-2 col-form-label">Login</label>
+                <label for="input-email" class="col-sm-2 col-form-label">Login</label>
                 <div class="col-sm-10">
-                    <input name="login" type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Login">
+                    <input name="login" type="text" class="form-control" id="input-email" aria-describedby="emailHelp" placeholder="Enter login">
                 </div>
             </div>
             <div class="form-group row">
-                <label for="exampleInputPassword1" class="col-sm-2 col-form-label">Password</label>
+                <label for="input-password" class="col-sm-2 col-form-label">Password</label>
                 <div class="col-sm-10">
-                    <input name="password" type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+                    <input name="password" type="password" class="form-control" id="input-password" placeholder="Enter password">
                 </div>
             </div>
             <div class="text-right mb-3">
