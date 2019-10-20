@@ -64,23 +64,4 @@ public class AdminAddServlet extends HttpServlet {
         userDao.create(user);
         resp.sendRedirect("/admin");
     }
-
-    /**
-     * Method checks input from user.
-     *
-     * @param req request
-     * @return
-     */
-    private boolean checkForm(HttpServletRequest req) {
-        String[] formParams = {"login", "password", "email", "firstname",
-            "lastname", "birthday", "role"};
-        for (String param: formParams) {
-            if (StringUtils.isEmpty(req.getParameter(param))) {
-                req.getSession(false).setAttribute("error",
-                    "Field " + param + " should be define");
-                return false;
-            }
-        }
-        return true;
-    }
 }

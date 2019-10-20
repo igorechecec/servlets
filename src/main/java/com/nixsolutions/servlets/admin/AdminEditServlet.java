@@ -76,24 +76,4 @@ public class AdminEditServlet extends HttpServlet {
         userDao.update(user);
         resp.sendRedirect("/admin");
     }
-
-    /**
-     * Method checks input from user.
-     *
-     * @param req request
-     * @return true if all params passed and its valid or false and put
-     * error message to session.
-     */
-    private boolean checkForm(HttpServletRequest req) {
-        String[] formParams = {"login", "password", "email", "firstname",
-            "lastname", "birthday", "role"};
-        for (String param: formParams) {
-            if (StringUtils.isEmpty(req.getParameter(param))) {
-                req.getSession(false).setAttribute("error",
-                    "Field " + param + " should be define");
-                return false;
-            }
-        }
-        return true;
-    }
 }
