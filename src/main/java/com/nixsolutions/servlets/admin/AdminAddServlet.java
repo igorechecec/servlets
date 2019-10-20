@@ -5,6 +5,7 @@ import com.nixsolutions.dao.JdbcUserDao;
 import com.nixsolutions.dao.RoleDao;
 import com.nixsolutions.dao.UserDao;
 import com.nixsolutions.entity.User;
+import com.nixsolutions.utils.FormUtils;
 import java.io.IOException;
 import java.sql.Date;
 import java.text.ParseException;
@@ -27,7 +28,7 @@ public class AdminAddServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        if (!checkForm(req)) {
+        if (!FormUtils.checkForm(req)) {
             resp.sendRedirect("/error");
             return;
         }

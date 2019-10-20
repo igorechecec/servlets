@@ -5,6 +5,7 @@ import com.nixsolutions.dao.JdbcUserDao;
 import com.nixsolutions.dao.RoleDao;
 import com.nixsolutions.dao.UserDao;
 import com.nixsolutions.entity.User;
+import com.nixsolutions.utils.FormUtils;
 import java.io.IOException;
 import java.sql.Date;
 import java.text.ParseException;
@@ -43,7 +44,7 @@ public class AdminEditServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        if (!checkForm(req)) {
+        if (!FormUtils.checkForm(req)) {
             resp.sendRedirect("/error");
             return;
         }
@@ -52,8 +53,8 @@ public class AdminEditServlet extends HttpServlet {
         UserDao userDao = new JdbcUserDao();
         if (!req.getParameter("password").equals(req.getParameter("password-again"))) {
             session = req.getSession(false);
-            session.setAttribute("message", "You passed different password!");
-            resp.sendRedirect("WEB-INF/error.jsp");
+            session.setAttribute("error", "You passed different password!");
+            resp.sendRedirect("/error");
             return;
         }
         User user = new User();

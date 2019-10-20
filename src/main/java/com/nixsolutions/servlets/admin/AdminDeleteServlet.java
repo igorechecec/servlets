@@ -26,7 +26,8 @@ public class AdminDeleteServlet extends HttpServlet {
                 resp.sendRedirect("/error");
             }
         } else {
-            resp.sendRedirect("/admin");
+            req.getSession(false).setAttribute("error", "Invalid id parameter");
+            resp.sendRedirect("/error");
         }
     }
 }

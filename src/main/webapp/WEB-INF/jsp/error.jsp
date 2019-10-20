@@ -2,22 +2,17 @@
 <head>
     <title>Error</title>
     <link rel="shortcut icon" type="image/gif" href="/resources/favicon.ico"/>
-    <link rel="stylesheet" href="resources/style.css"/>
     <link rel="stylesheet" href="resources/bootstrap.min.css"/>
+    <link rel="stylesheet" href="resources/error.css"/>
 </head>
 <body>
-    <%--<h1>${message}</h1>--%>
-    <%--<div class="home-link-wrapper">--%>
-        <%--<a href="/">Go Home</a>--%>
-    <%--</div>--%>
     <div class="page-wrap d-flex flex-row align-items-center">
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-md-12 text-center">
-                    <span class="display-1 d-block">Something went wrong</span>
-                    <div class="mb-4 lead">${message}</div>
-                    <%--<div class="mb-4 lead">The page you are looking for was not found.</div>--%>
-                    <a href="/" class="btn btn-link" style="size: 20px">Back to Home</a>
+                    <span class="display-1 d-block message">Something went wrong</span>
+                    <div class="mb-4 lead error-message">${message}</div>
+                    <a href="/" class="btn btn-link home-link" style="size: 30px">Back to Home</a>
                 </div>
             </div>
         </div>

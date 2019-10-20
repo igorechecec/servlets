@@ -14,7 +14,7 @@ public class ErrorServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HttpSession session = req.getSession(false);
         req.setAttribute("message", session.getAttribute("error"));
-        session.removeAttribute("error");
+        //session.removeAttribute("error");
         req.getRequestDispatcher("/WEB-INF/jsp/error.jsp").forward(req, resp);
 
     }
